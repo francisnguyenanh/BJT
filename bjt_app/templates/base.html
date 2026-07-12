@@ -4,6 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% block title %}BJT Study{% endblock %}</title>
+  <link rel="icon" type="image/x-icon" href="/static/icons/favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="/static/icons/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/static/icons/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/static/icons/apple-touch-icon.png">
+  <link rel="manifest" href="/static/icons/site.webmanifest">
+  <meta name="theme-color" content="#2563eb">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
@@ -17,6 +23,9 @@
     <a href="/vocab">⭐ Luyện tập</a>
     <a href="/settings">⚙️ Cài đặt AI</a>
     <button id="theme-toggle" class="icon-btn" aria-label="Đổi giao diện sáng/tối" title="Đổi giao diện sáng/tối">🌓</button>
+    <form method="post" action="/logout" style="margin-left:auto;">
+      <button type="submit" class="icon-btn" aria-label="Đăng xuất" title="Đăng xuất">🚪</button>
+    </form>
   </nav>
   <main>
     {% block content %}{% endblock %}

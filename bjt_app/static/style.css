@@ -39,6 +39,23 @@
 
 :root.hide-furigana rt { display: none; }
 
+.login-main { min-height: 100vh; display: flex; align-items: center; justify-content: center; }
+.login-box {
+  background: var(--card-bg); box-shadow: var(--card-shadow); border-radius: 12px;
+  padding: 32px 28px; width: 280px; display: flex; flex-direction: column; gap: 12px; text-align: center;
+}
+.login-box h1 { margin: 0 0 8px; font-size: 20px; }
+.login-box input {
+  padding: 10px 12px; border-radius: 8px; border: 1px solid var(--border);
+  background: var(--option-bg); color: var(--text); font-size: 15px;
+}
+.login-box button {
+  padding: 10px 12px; border-radius: 8px; border: none; background: var(--accent);
+  color: var(--accent-text); font-size: 15px; font-weight: 600; cursor: pointer;
+}
+.login-box button:hover { opacity: .9; }
+.login-error { color: #dc2626; font-size: 13px; margin: 0; }
+
 * { box-sizing: border-box; }
 body {
   font-family: "Noto Sans", -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;

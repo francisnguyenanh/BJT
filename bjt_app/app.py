@@ -13,7 +13,7 @@ if __package__ in (None, ""):
     # Allow `python app.py` / running from the IDE, not just `python -m bjt_app.app`.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from flask import Flask, abort, jsonify, redirect, render_template, request, url_for
+from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
 
 from bjt_app import ai_provider, storage
 from bjt_app.furigana import add_furigana
@@ -32,8 +32,36 @@ from bjt_app.passage_generator import (
 from bjt_app.progress import clear_all_focus, delete_focus, get_daily_focus
 from bjt_app.wiki_parser import parse_wiki
 
+APP_PASSWORD = os.environ.get("APP_PASSWORD", "2312")
+
 app = Flask(__name__)
 app.jinja_env.filters["furigana"] = add_furigana
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "bjt-study-dev-secret")
+
+
+@app.before_request
+def require_login():
+    if request.endpoint in ("login", "static"):
+        return None
+    if not session.get("logged_in"):
+        return redirect(url_for("login"))
+    return None
+
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        if request.form.get("password") == APP_PASSWORD:
+            session["logged_in"] = True
+            return redirect(url_for("index"))
+        return render_template("login.html", error="Sai mật khẩu"), 401
+    return render_template("login.html", error=None)
+
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    session.pop("logged_in", None)
+    return redirect(url_for("login"))
 
 _VOCAB_CACHE = None
 
