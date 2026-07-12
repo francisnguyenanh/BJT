@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block title %}Life Style — BJT Study{% endblock %}
+{% block content %}
+<h1>🌿 Life Style</h1>
+
+<section class="lifestyle-section">
+  <div class="section-header" data-toggle="unread-body">
+    <h3>Chưa đọc ({{ unread|length }})</h3>
+    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
+  </div>
+  <div class="section-body" id="unread-body">
+    <ul class="lifestyle-list">
+      {% for it in unread %}
+      <li data-id="{{ it.id }}">
+        <label class="read-check">
+          <input type="checkbox" class="mark-read" data-id="{{ it.id }}">
+        </label>
+        <a href="/lifestyle/{{ it.id }}">{{ it.title }}</a>
+      </li>
+      {% else %}
+      <li>Đã đọc hết rồi! 🎉</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="lifestyle-section">
+  <div class="section-header collapsed" data-toggle="read-body">
+    <h3>Đã đọc ({{ read|length }})</h3>
+    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
+  </div>
+  <div class="section-body collapsed" id="read-body">
+    <ul class="lifestyle-list">
+      {% for it in read %}
+      <li data-id="{{ it.id }}">
+        <label class="read-check">
+          <input type="checkbox" class="mark-read" data-id="{{ it.id }}" checked>
+        </label>
+        <a href="/lifestyle/{{ it.id }}" class="done">{{ it.title }}</a>
+      </li>
+      {% else %}
+      <li>Chưa đọc bài nào.</li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<script>
+window.BJT.initSectionToggles();
+
+document.querySelectorAll('.mark-read').forEach(cb => {
+  cb.addEventListener('change', async () => {
+    const id = cb.dataset.id;
+    await fetch(`/lifestyle/${id}/read`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ read: cb.checked })
+    });
+    window.location.reload();
+  });
+});
+</script>
+{% endblock %}

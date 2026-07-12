@@ -18,14 +18,20 @@
 </head>
 <body>
   <nav class="topnav">
-    <a href="/">📖 Đọc hôm nay</a>
-    <a href="/history">🗂 Lịch sử</a>
-    <a href="/vocab">⭐ Luyện tập</a>
-    <a href="/settings">⚙️ Cài đặt AI</a>
-    <button id="theme-toggle" class="icon-btn" aria-label="Đổi giao diện sáng/tối" title="Đổi giao diện sáng/tối">🌓</button>
-    <form method="post" action="/logout" style="margin-left:auto;">
-      <button type="submit" class="icon-btn" aria-label="Đăng xuất" title="Đăng xuất">🚪</button>
-    </form>
+    <button id="nav-toggle" class="icon-btn nav-toggle" aria-label="Mở menu" aria-expanded="false" title="Menu">☰</button>
+    <div class="nav-links" id="nav-links">
+      <a href="/">📖 Đọc hôm nay</a>
+      <a href="/history">🗂 Lịch sử</a>
+      <a href="/lifestyle">🌿 Life Style</a>
+      <a href="/vocab">⭐ Luyện tập</a>
+      <a href="/settings">⚙️ Cài đặt AI</a>
+    </div>
+    <div class="nav-actions">
+      <button id="theme-toggle" class="icon-btn" aria-label="Đổi giao diện sáng/tối" title="Đổi giao diện sáng/tối">🌓</button>
+      <form method="post" action="/logout">
+        <button type="submit" class="icon-btn" aria-label="Đăng xuất" title="Đăng xuất">🚪</button>
+      </form>
+    </div>
   </nav>
   <main>
     {% block content %}{% endblock %}
@@ -33,6 +39,18 @@
   <script>
     document.getElementById('theme-toggle').addEventListener('click', function () {
       window.BJT.toggleTheme();
+    });
+    var navToggle = document.getElementById('nav-toggle');
+    var navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', function () {
+      var open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
     });
   </script>
 </body>

@@ -7,15 +7,15 @@ Then open http://<your-lan-ip>:5000 from your phone (same Wi-Fi) or PC.
 
 import os
 import sys
-from datetime import date
+from datetime import date, datetime
 
 if __package__ in (None, ""):
     # Allow `python app.py` / running from the IDE, not just `python -m bjt_app.app`.
     sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from flask import Flask, abort, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, Response, abort, jsonify, redirect, render_template, request, session, url_for
 
-from bjt_app import ai_provider, storage
+from bjt_app import ai_provider, lifestyle, storage, tts
 from bjt_app.furigana import add_furigana
 from bjt_app.passage_generator import (
     LENGTH_PRESETS,
@@ -106,6 +106,13 @@ def get_or_create_passage(date_key: str, length: str = None, level: str = None):
         focus = get_daily_focus(passage_id, batch_sizes=preset["batch_sizes"])
         passage = generate_passage(passage_id, focus, date_key, length=length, level=level)
         save_passage(passage)
+
+    if request.args.get("fragment"):
+        html = render_template(
+            "passage_content.html", p=passage, lengths=LENGTH_PRESETS, level_labels=LEVEL_LABELS
+        )
+        return jsonify({"ok": True, "html": html, "title": f"{passage['title']} — BJT Study"})
+
     return render_template(
         "passage.html", p=passage, today=_today(), lengths=LENGTH_PRESETS, level_labels=LEVEL_LABELS
     )
@@ -121,7 +128,15 @@ def regenerate_passage(date_key: str):
     focus = get_daily_focus(passage_id, batch_sizes=preset["batch_sizes"], force_new=True)
     passage = generate_passage(passage_id, focus, date_key, length=length, level=level)
     save_passage(passage)
-    return jsonify({"ok": True, "redirect": f"/passage/{date_key}?length={length}&level={level}"})
+    html = render_template(
+        "passage_content.html", p=passage, lengths=LENGTH_PRESETS, level_labels=LEVEL_LABELS
+    )
+    return jsonify({
+        "ok": True,
+        "redirect": f"/passage/{date_key}?length={length}&level={level}",
+        "html": html,
+        "title": f"{passage['title']} — BJT Study",
+    })
 
 
 @app.route("/history")
@@ -162,10 +177,20 @@ def settings():
         primary = request.form.get("primary_provider", "kaggle")
         order = [primary] + [p for p in ai_provider.PROVIDER_ORDER if p != primary]
         ai_provider.set_provider_priority(order)
+
+        voice = request.form.get("tts_voice", tts.DEFAULT_VOICE)
+        if voice in tts.VOICES:
+            tts.set_voice(voice)
         return redirect(url_for("settings"))
 
     order = ai_provider.get_provider_priority()
-    return render_template("settings.html", order=order, primary=order[0] if order else "kaggle")
+    return render_template(
+        "settings.html",
+        order=order,
+        primary=order[0] if order else "kaggle",
+        voices=tts.VOICES,
+        current_voice=tts.get_voice(),
+    )
 
 
 @app.route("/vocab")
@@ -174,6 +199,61 @@ def vocab():
     # localStorage of starred vocab/grammar items (client-side only,
     # nothing to look up server-side).
     return render_template("vocab.html")
+
+
+@app.route("/lifestyle")
+def lifestyle_list():
+    unread, read = lifestyle.list_with_read_state()
+    return render_template("lifestyle_list.html", unread=unread, read=read)
+
+
+@app.route("/lifestyle/<reading_id>")
+def lifestyle_detail(reading_id: str):
+    reading = lifestyle.get_reading(reading_id)
+    if reading is None:
+        abort(404)
+    analysis = lifestyle.get_or_create_analysis(reading_id)
+    return render_template(
+        "lifestyle_detail.html",
+        reading=reading,
+        analysis=analysis,
+        is_read=lifestyle.is_read(reading_id),
+    )
+
+
+_AUDIO_CACHE_HEADERS = {"Cache-Control": "public, max-age=31536000, immutable"}
+
+
+@app.route("/lifestyle/<reading_id>/audio")
+def lifestyle_audio(reading_id: str):
+    reading = lifestyle.get_reading(reading_id)
+    if reading is None:
+        abort(404)
+    audio_bytes = tts.get_or_create_audio("lifestyle", reading_id, reading["text"])
+    return Response(audio_bytes, mimetype="audio/mpeg", headers=_AUDIO_CACHE_HEADERS)
+
+
+@app.route("/passage/<date_key>/audio")
+def passage_audio(date_key: str):
+    length = _valid_length(request.args.get("length", DEFAULT_LENGTH))
+    level = _valid_level(request.args.get("level"), length)
+    passage_id = f"{date_key}__{length}__{level}"
+
+    passage = load_passage(passage_id)
+    if passage is None:
+        abort(404)
+    audio_bytes = tts.get_or_create_audio("passage", passage_id, passage["passage_jp"])
+    return Response(audio_bytes, mimetype="audio/mpeg", headers=_AUDIO_CACHE_HEADERS)
+
+
+@app.route("/lifestyle/<reading_id>/read", methods=["POST"])
+def lifestyle_mark_read(reading_id: str):
+    if lifestyle.get_reading(reading_id) is None:
+        abort(404)
+    payload = request.get_json(silent=True) or {}
+    read = bool(payload.get("read", True))
+    lifestyle.set_read(reading_id, read, datetime.utcnow().isoformat())
+    return jsonify({"ok": True, "read": read})
 
 
 @app.route("/api/vocab")

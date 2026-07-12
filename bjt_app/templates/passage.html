@@ -1,277 +1,93 @@
 {% extends "base.html" %}
 {% block title %}{{ p.title }} — BJT Study{% endblock %}
 {% block content %}
-<div class="length-tabs">
-  {% for key, preset in lengths.items() %}
-  <a href="/passage/{{ p.date }}?length={{ key }}&level={{ p.level }}" class="length-tab {% if key == p.length %}active{% endif %}">{{ preset.label }}</a>
-  {% endfor %}
+<div id="passage-root">
+{% include "passage_content.html" %}
 </div>
-<div class="level-tabs">
-  {% for key, label in level_labels.items() %}
-  <a href="/passage/{{ p.date }}?length={{ p.length }}&level={{ key }}" class="level-tab {% if key == p.level %}active{% endif %}">{{ label }}</a>
-  {% endfor %}
-</div>
-
-<h1>{{ p.title }}</h1>
-<p class="scenario">
-  {{ p.scenario }}
-  <span class="badge">{{ p.difficulty }}</span>
-  <span class="badge badge-length">{{ p.length_label }}</span>
-  {% if p.topic %}<span class="badge badge-topic">{{ p.topic }}</span>{% endif %}
-</p>
-
-<button id="regen-top" data-date="{{ p.date }}" data-length="{{ p.length }}" data-level="{{ p.level }}">🔄 Tạo bài đọc mới ({{ p.length_label }} · {{ p.exam_level or p.level }})</button>
-
-<div class="reading-toolbar">
-  <div class="toolbar-group">
-    <span class="toolbar-label">Cỡ chữ:</span>
-    <button class="tb-btn" data-action="jp-dec">A-</button>
-    <button class="tb-btn" data-action="jp-inc">A+</button>
-  </div>
-  <div class="toolbar-group">
-    <span class="toolbar-label">Furigana:</span>
-    <button class="tb-btn" data-action="furi-dec">a-</button>
-    <button class="tb-btn" data-action="furi-inc">a+</button>
-    <button class="tb-btn" id="furi-toggle">👁 Ẩn/hiện</button>
-  </div>
-  <div class="toolbar-group">
-    <span class="toolbar-label">Màu furigana:</span>
-    <span class="furi-color-swatches">
-      <button class="swatch" style="background:#059669" data-color="#059669" aria-label="Xanh lá"></button>
-      <button class="swatch" style="background:#2563eb" data-color="#2563eb" aria-label="Xanh dương"></button>
-      <button class="swatch" style="background:#dc2626" data-color="#dc2626" aria-label="Đỏ"></button>
-      <button class="swatch" style="background:#d97706" data-color="#d97706" aria-label="Cam"></button>
-      <button class="swatch" style="background:#9ca3af" data-color="#9ca3af" aria-label="Xám"></button>
-    </span>
-  </div>
-</div>
-
-<section class="focus-box">
-  <div class="section-header" data-toggle="focus-body">
-    <h3>Từ vựng &amp; ngữ pháp</h3>
-    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
-  </div>
-  <div class="section-body" id="focus-body">
-    <h4>Từ vựng trọng tâm hôm nay</h4>
-    <ul class="focus-list">
-      {% for v in p.focus_vocab %}
-        <li>
-          <div class="item-row">
-            <span><b>{{ v.term }}</b>{% if v.reading %} <span class="reading">({{ v.reading }})</span>{% endif %} — {{ v.meaning }}</span>
-            <button class="star-btn" data-kind="vocab" data-term="{{ v.term }}" data-reading="{{ v.reading }}" data-meaning="{{ v.meaning }}" data-example="{{ v.example }}" aria-label="Đánh dấu quan trọng">☆</button>
-          </div>
-          {% if v.example %}<div class="example">例: {{ v.example | furigana | safe }}</div>{% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-
-    {% if p.extra_vocab %}
-    <h4>Từ vựng N3+ khác xuất hiện trong bài đọc</h4>
-    <ul class="focus-list">
-      {% for v in p.extra_vocab %}
-        <li>
-          <div class="item-row">
-            <span>
-              <b>{{ v.term }}</b>{% if v.reading %} <span class="reading">({{ v.reading }})</span>{% endif %}
-              {% if v.level %}<span class="level-badge level-{{ v.level }}">{{ v.level }}</span>{% endif %}
-              — {{ v.meaning }}
-            </span>
-            <button class="star-btn" data-kind="vocab" data-term="{{ v.term }}" data-reading="{{ v.reading }}" data-meaning="{{ v.meaning }}" data-word-level="{{ v.level }}" aria-label="Đánh dấu quan trọng">☆</button>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if p.focus_grammar %}
-    <h4>Ngữ pháp / kính ngữ trọng tâm</h4>
-    <ul class="focus-list">
-      {% for g in p.focus_grammar %}
-        <li>
-          <div class="item-row">
-            <span><b>{{ g.term }}</b> — {{ g.meaning }}</span>
-            <button class="star-btn" data-kind="grammar" data-term="{{ g.term }}" data-meaning="{{ g.meaning }}" data-structure="{{ g.structure }}" data-example="{{ g.example }}" aria-label="Đánh dấu quan trọng">☆</button>
-          </div>
-          {% if g.structure %}<div class="structure">Cấu trúc: {{ g.structure }}</div>{% endif %}
-          {% if g.example %}<div class="example">例: {{ g.example | furigana | safe }}</div>{% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if p.extra_grammar %}
-    <h4>Ngữ pháp N2 / N1 / BJT khác xuất hiện trong bài đọc</h4>
-    <ul class="focus-list">
-      {% for g in p.extra_grammar %}
-        <li>
-          <div class="item-row">
-            <span>
-              <b>{{ g.pattern }}</b>
-              {% if g.level %}<span class="level-badge level-{{ g.level }}">{{ g.level }}</span>{% endif %}
-              — {{ g.meaning }}
-            </span>
-            <button class="star-btn" data-kind="grammar" data-term="{{ g.pattern }}" data-meaning="{{ g.meaning }}" data-structure="{{ g.structure }}" data-example="{{ g.example }}" data-word-level="{{ g.level }}" aria-label="Đánh dấu quan trọng">☆</button>
-          </div>
-          {% if g.structure %}<div class="structure">Cấu trúc: {{ g.structure }}</div>{% endif %}
-          {% if g.example %}<div class="example">例: {{ g.example | furigana | safe }}</div>{% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if p.focus_phrase %}
-    <h4>Mẫu câu business</h4>
-    <ul class="focus-list">
-      {% for ph in p.focus_phrase %}
-        <li>
-          <b>{{ ph.term | furigana | safe }}</b> — {{ ph.meaning }}
-          {% if ph.example %}<div class="example">例: {{ ph.example | furigana | safe }}</div>{% endif %}
-        </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-  </div>
-</section>
-
-<section class="passage-box">
-  <div class="section-header" data-toggle="passage-body">
-    <h3>Bài đọc</h3>
-    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
-  </div>
-  <div class="section-body" id="passage-body">
-    <div class="passage-jp">{{ p.passage_jp | furigana | safe }}</div>
-  </div>
-</section>
-
-<section class="questions">
-  <div class="section-header" data-toggle="questions-body">
-    <h3>Câu hỏi đọc hiểu</h3>
-    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
-  </div>
-  <div class="section-body" id="questions-body">
-    {% for q in p.questions %}
-    <div class="question" data-answer="{{ q.answer_index }}">
-      <p class="q-text">{{ loop.index }}. {{ q.question | furigana | safe }}</p>
-      <div class="options">
-        {% for opt in q.options %}
-        <button class="option" data-index="{{ loop.index0 }}">{{ ["A","B","C","D"][loop.index0] }}. {{ opt | furigana | safe }}</button>
-        {% endfor %}
-      </div>
-      <p class="explanation hidden">{{ q.explanation }}</p>
-    </div>
-    {% endfor %}
-  </div>
-</section>
 
 <script>
-document.querySelectorAll('.section-header').forEach(header => {
-  header.addEventListener('click', () => {
-    const body = document.getElementById(header.dataset.toggle);
-    body.classList.toggle('collapsed');
-    header.classList.toggle('collapsed');
-  });
-});
-
-function getVar(name, fallback) {
-  return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || fallback;
-}
-function setPref(key, value) {
-  localStorage.setItem(key, value);
-  window.BJT.apply();
+function currentPassageData() {
+  const el = document.getElementById('passage-data');
+  return el ? JSON.parse(el.textContent) : {};
 }
 
-document.querySelector('[data-action="jp-inc"]').addEventListener('click', () => {
-  const size = Math.min(parseInt(getVar('--jp-font-size', '17px'), 10) + 1, 28);
-  setPref('bjt-jp-size', size);
-});
-document.querySelector('[data-action="jp-dec"]').addEventListener('click', () => {
-  const size = Math.max(parseInt(getVar('--jp-font-size', '17px'), 10) - 1, 12);
-  setPref('bjt-jp-size', size);
-});
-document.querySelector('[data-action="furi-inc"]').addEventListener('click', () => {
-  const size = Math.min(parseInt(getVar('--furigana-font-size', '10px'), 10) + 1, 18);
-  setPref('bjt-furi-size', size);
-});
-document.querySelector('[data-action="furi-dec"]').addEventListener('click', () => {
-  const size = Math.max(parseInt(getVar('--furigana-font-size', '10px'), 10) - 1, 6);
-  setPref('bjt-furi-size', size);
-});
-document.getElementById('furi-toggle').addEventListener('click', () => {
-  const hidden = document.documentElement.classList.contains('hide-furigana');
-  setPref('bjt-hide-furigana', hidden ? '0' : '1');
-});
-document.querySelectorAll('.swatch').forEach(sw => {
-  sw.addEventListener('click', () => setPref('bjt-furi-color', sw.dataset.color));
-});
-
-function loadStarred() {
-  try { return JSON.parse(localStorage.getItem('bjt-starred') || '{}'); } catch (e) { return {}; }
+// Swap #passage-root content in place instead of reloading the whole page,
+// so changing length/level/regenerating stays on the same page (no flash / no full reload).
+async function loadPassage(url, { push = true } = {}) {
+  const root = document.getElementById('passage-root');
+  root.classList.add('loading');
+  try {
+    const fragUrl = url + (url.includes('?') ? '&' : '?') + 'fragment=1';
+    const res = await fetch(fragUrl, { headers: { 'X-Requested-With': 'fetch' } });
+    const data = await res.json();
+    if (!data.ok) return;
+    root.innerHTML = data.html;
+    document.title = data.title;
+    if (push) history.pushState({ url }, '', url);
+    initPassageInteractions();
+  } finally {
+    root.classList.remove('loading');
+  }
 }
-function saveStarred(map) { localStorage.setItem('bjt-starred', JSON.stringify(map)); }
 
-(function initStars() {
-  const starred = loadStarred();
-  document.querySelectorAll('.star-btn').forEach(btn => {
-    const key = btn.dataset.kind + ':' + btn.dataset.term;
-    if (starred[key]) { btn.classList.add('starred'); btn.textContent = '★'; }
-
-    btn.addEventListener('click', () => {
-      const map = loadStarred();
-      if (map[key]) {
-        delete map[key];
-        btn.classList.remove('starred');
-        btn.textContent = '☆';
-      } else {
-        map[key] = {
-          kind: btn.dataset.kind,
-          term: btn.dataset.term,
-          reading: btn.dataset.reading || '',
-          meaning: btn.dataset.meaning || '',
-          example: btn.dataset.example || '',
-          structure: btn.dataset.structure || '',
-          wordLevel: btn.dataset.wordLevel || '',
-          date: {{ p.date | tojson }},
-          length: {{ p.length | tojson }},
-          pageLevel: {{ p.level | tojson }},
-          title: {{ p.title | tojson }},
-          savedAt: Date.now()
-        };
-        btn.classList.add('starred');
-        btn.textContent = '★';
-      }
-      saveStarred(map);
+function initPassageInteractions() {
+  document.querySelectorAll('.length-tab, .level-tab').forEach(tab => {
+    tab.addEventListener('click', (e) => {
+      e.preventDefault();
+      loadPassage(tab.getAttribute('href'));
     });
   });
-})();
 
-document.getElementById('regen-top').addEventListener('click', async (e) => {
-  const btn = e.target;
-  btn.disabled = true;
-  btn.textContent = 'Đang tạo...';
-  const date = btn.dataset.date;
-  const length = btn.dataset.length;
-  const level = btn.dataset.level;
-  const res = await fetch(`/passage/${date}/regenerate?length=${length}&level=${level}`, {method: 'POST'});
-  const data = await res.json();
-  if (data.ok) window.location.href = data.redirect;
-});
+  window.BJT.initSectionToggles();
+  window.BJT.initReadingToolbar();
+  window.BJT.initTtsButton();
+  window.BJT.initStarButtons(() => {
+    const pd = currentPassageData();
+    return { date: pd.date, length: pd.length, pageLevel: pd.level, title: pd.title };
+  });
 
-document.querySelectorAll('.question').forEach(q => {
-  const correct = parseInt(q.dataset.answer, 10);
-  const exp = q.querySelector('.explanation');
-  q.querySelectorAll('.option').forEach(btn => {
-    btn.addEventListener('click', () => {
-      if (q.classList.contains('answered')) return;
-      q.classList.add('answered');
-      const idx = parseInt(btn.dataset.index, 10);
-      q.querySelectorAll('.option').forEach(b => {
-        const bidx = parseInt(b.dataset.index, 10);
-        if (bidx === correct) b.classList.add('correct');
-        else if (bidx === idx) b.classList.add('wrong');
+  const regenBtn = document.getElementById('regen-top');
+  regenBtn.addEventListener('click', async (e) => {
+    const btn = e.target;
+    btn.disabled = true;
+    btn.textContent = 'Đang tạo...';
+    const date = btn.dataset.date;
+    const length = btn.dataset.length;
+    const level = btn.dataset.level;
+    const res = await fetch(`/passage/${date}/regenerate?length=${length}&level=${level}`, { method: 'POST' });
+    const data = await res.json();
+    if (data.ok) {
+      const root = document.getElementById('passage-root');
+      root.innerHTML = data.html;
+      document.title = data.title;
+      history.pushState({ url: data.redirect }, '', data.redirect);
+      initPassageInteractions();
+    }
+  });
+
+  document.querySelectorAll('.question').forEach(q => {
+    const correct = parseInt(q.dataset.answer, 10);
+    const exp = q.querySelector('.explanation');
+    q.querySelectorAll('.option').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (q.classList.contains('answered')) return;
+        q.classList.add('answered');
+        const idx = parseInt(btn.dataset.index, 10);
+        q.querySelectorAll('.option').forEach(b => {
+          const bidx = parseInt(b.dataset.index, 10);
+          if (bidx === correct) b.classList.add('correct');
+          else if (bidx === idx) b.classList.add('wrong');
+        });
+        exp.classList.remove('hidden');
       });
-      exp.classList.remove('hidden');
     });
   });
+}
+
+initPassageInteractions();
+
+window.addEventListener('popstate', () => {
+  loadPassage(location.pathname + location.search, { push: false });
 });
 </script>
 {% endblock %}

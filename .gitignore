@@ -5,3 +5,6 @@ bjt_app/__pycache__/
 output/
 data/progress.json
 data/passages/
+data/lifestyle_state.json
+data/lifestyle_analysis/
+data/tts_cache/

@@ -14,8 +14,17 @@
       <input type="radio" name="primary_provider" value="kaggle" {% if primary == "kaggle" %}checked{% endif %}>
       <span><b>Kaggle AI</b> ưu tiên trước — dùng Vertex AI làm dự phòng</span>
     </label>
+    <h3>Giọng đọc audio (text-to-speech)</h3>
+    {% for value, label in voices.items() %}
+    <label class="provider-option">
+      <input type="radio" name="tts_voice" value="{{ value }}" {% if current_voice == value %}checked{% endif %}>
+      <span>{{ label }}</span>
+    </label>
+    {% endfor %}
+
     <button type="submit" id="save-settings">Lưu cài đặt</button>
   </form>
-  <p class="scenario">Thứ tự hiện tại: {{ order | join(" → ") }}</p>
+  <p class="scenario">Thứ tự AI hiện tại: {{ order | join(" → ") }}</p>
+  <p class="scenario">Giọng đọc hiện tại: {{ voices[current_voice] }}</p>
 </section>
 {% endblock %}

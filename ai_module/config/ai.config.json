@@ -69,5 +69,10 @@
     "model": "google/gemini-3.1-flash-lite-preview",
     "max_output_tokens": 8192,
     "temperature": 0.2
-  }
+  },
+  "provider_priority": [
+    "kaggle",
+    "vertex_ai"
+  ],
+  "tts_voice": "ja-JP-Neural2-B"
 }

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}{{ reading.title }} — Life Style — BJT Study{% endblock %}
+{% block content %}
+<h1>{{ reading.title }}</h1>
+
+<button id="read-toggle" data-id="{{ reading.id }}" data-read="{{ 'true' if is_read else 'false' }}">
+  {% if is_read %}✅ Đã đọc{% else %}☐ Đánh dấu đã đọc{% endif %}
+</button>
+
+<button id="tts-play" class="tb-btn" data-src="/lifestyle/{{ reading.id }}/audio">🔊 Nghe bài đọc</button>
+<audio id="tts-audio" controls preload="none"></audio>
+
+<div class="reading-toolbar">
+  <div class="toolbar-group">
+    <span class="toolbar-label">Cỡ chữ:</span>
+    <button class="tb-btn" data-action="jp-dec">A-</button>
+    <button class="tb-btn" data-action="jp-inc">A+</button>
+  </div>
+  <div class="toolbar-group">
+    <span class="toolbar-label">Furigana:</span>
+    <button class="tb-btn" data-action="furi-dec">a-</button>
+    <button class="tb-btn" data-action="furi-inc">a+</button>
+    <button class="tb-btn" id="furi-toggle">👁 Ẩn/hiện</button>
+  </div>
+  <div class="toolbar-group">
+    <span class="toolbar-label">Màu furigana:</span>
+    <span class="furi-color-swatches">
+      <button class="swatch" style="background:#059669" data-color="#059669" aria-label="Xanh lá"></button>
+      <button class="swatch" style="background:#2563eb" data-color="#2563eb" aria-label="Xanh dương"></button>
+      <button class="swatch" style="background:#dc2626" data-color="#dc2626" aria-label="Đỏ"></button>
+      <button class="swatch" style="background:#d97706" data-color="#d97706" aria-label="Cam"></button>
+      <button class="swatch" style="background:#9ca3af" data-color="#9ca3af" aria-label="Xám"></button>
+    </span>
+  </div>
+</div>
+
+<section class="focus-box">
+  <div class="section-header" data-toggle="focus-body">
+    <h3>Từ vựng &amp; ngữ pháp</h3>
+    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
+  </div>
+  <div class="section-body" id="focus-body">
+    {% if analysis.vocab_glossary %}
+    <h4>Từ vựng N3+ xuất hiện trong bài</h4>
+    <ul class="focus-list">
+      {% for v in analysis.vocab_glossary %}
+        <li>
+          <div class="item-row">
+            <span>
+              <b>{{ v.term }}</b>{% if v.reading %} <span class="reading">({{ v.reading }})</span>{% endif %}
+              {% if v.level %}<span class="level-badge level-{{ v.level }}">{{ v.level }}</span>{% endif %}
+              — {{ v.meaning }}
+            </span>
+            <button class="star-btn" data-kind="vocab" data-term="{{ v.term }}" data-reading="{{ v.reading }}" data-meaning="{{ v.meaning }}" data-word-level="{{ v.level }}" aria-label="Đánh dấu quan trọng">☆</button>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if analysis.grammar_glossary %}
+    <h4>Ngữ pháp N2 / N1 xuất hiện trong bài</h4>
+    <ul class="focus-list">
+      {% for g in analysis.grammar_glossary %}
+        <li>
+          <div class="item-row">
+            <span>
+              <b>{{ g.pattern }}</b>
+              {% if g.level %}<span class="level-badge level-{{ g.level }}">{{ g.level }}</span>{% endif %}
+              — {{ g.meaning }}
+            </span>
+            <button class="star-btn" data-kind="grammar" data-term="{{ g.pattern }}" data-meaning="{{ g.meaning }}" data-structure="{{ g.structure }}" data-example="{{ g.example }}" data-word-level="{{ g.level }}" aria-label="Đánh dấu quan trọng">☆</button>
+          </div>
+          {% if g.structure %}<div class="structure">Cấu trúc: {{ g.structure }}</div>{% endif %}
+          {% if g.example %}<div class="example">例: {{ g.example | furigana | safe }}</div>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  </div>
+</section>
+
+<section class="passage-box">
+  <div class="section-header" data-toggle="passage-body">
+    <h3>Bài đọc</h3>
+    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
+  </div>
+  <div class="section-body" id="passage-body">
+    <div class="passage-jp">{{ reading.text | furigana | safe }}</div>
+  </div>
+</section>
+
+<script>
+window.BJT.initSectionToggles();
+window.BJT.initReadingToolbar();
+window.BJT.initTtsButton();
+window.BJT.initStarButtons(() => ({ source: 'lifestyle', readingId: '{{ reading.id }}', title: {{ reading.title | tojson }} }));
+
+const readBtn = document.getElementById('read-toggle');
+readBtn.addEventListener('click', async () => {
+  const id = readBtn.dataset.id;
+  const nextRead = readBtn.dataset.read !== 'true';
+  const res = await fetch(`/lifestyle/${id}/read`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ read: nextRead })
+  });
+  const data = await res.json();
+  if (data.ok) {
+    readBtn.dataset.read = String(data.read);
+    readBtn.textContent = data.read ? '✅ Đã đọc' : '☐ Đánh dấu đã đọc';
+  }
+});
+</script>
+{% endblock %}
