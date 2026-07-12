@@ -207,9 +207,23 @@ gcloud storage ls gs://feednotebooklm-bjt-tts-cache --project feednotebooklm
 
 ## B.4. Theo dõi free tier (không bắt buộc ngay, nhưng nên biết chỗ xem)
 
-- Text-to-Speech usage: https://console.cloud.google.com/apis/api/texttospeech.googleapis.com/metrics?project=feednotebooklm
-- Cloud Storage usage: https://console.cloud.google.com/storage/browser/feednotebooklm-bjt-tts-cache?project=feednotebooklm (xem tổng dung lượng)
-- Firestore usage: https://console.cloud.google.com/firestore/databases/-default-/usage?project=feednotebooklm
+Mỗi dịch vụ có 1 trang xem dung lượng/usage riêng — bookmark lại, thỉnh
+thoảng liếc qua vài giây là đủ, không cần theo dõi liên tục:
+
+| Dịch vụ | Xem gì | Link | Ngưỡng free tier |
+|---|---|---|---|
+| **Cloud Storage** (bucket audio) | Tổng dung lượng đang lưu (byte) | [Bucket → tab "Configuration"](https://console.cloud.google.com/storage/browser/feednotebooklm-bjt-tts-cache;tab=configuration?project=feednotebooklm) | 5GB (Always Free) |
+| **Cloud Storage** (chi tiết theo ngày) | Biểu đồ dung lượng + số request theo thời gian | [Monitoring → Metrics Explorer, lọc theo bucket](https://console.cloud.google.com/monitoring/metrics-explorer?project=feednotebooklm) | 5GB + 5K Class A / 50K Class B ops/tháng |
+| **Text-to-Speech API** | Số request/ký tự đã gọi | [API → Metrics](https://console.cloud.google.com/apis/api/texttospeech.googleapis.com/metrics?project=feednotebooklm) | ~1 triệu ký tự/tháng (giọng Neural2) |
+| **Firestore** | Dung lượng lưu + số đọc/ghi/xóa mỗi ngày | [Firestore → Usage](https://console.cloud.google.com/firestore/databases/-default-/usage?project=feednotebooklm) | 1GB storage, 50K đọc + 20K ghi + 20K xóa/ngày |
+| **Firestore** (xem trực tiếp dữ liệu) | Từng collection/document thật | [Firestore → Data](https://console.cloud.google.com/firestore/databases/-default-/data?project=feednotebooklm) | — |
+| **Vertex AI (Gemini)** | Số request/token đã gọi (khi Kaggle lỗi, fallback sang đây) | [Vertex AI → API Metrics](https://console.cloud.google.com/apis/api/aiplatform.googleapis.com/metrics?project=feednotebooklm) | tính phí theo token, không có free tier riêng — xem mục C.2 |
+| **Cloud Run** | Số request, CPU/memory, instance-giờ | [Cloud Run → bjt-app → Metrics](https://console.cloud.google.com/run/detail/us-central1/bjt-app/metrics?project=feednotebooklm) | 2 triệu request + 360K GB-giây/tháng |
+| **Tổng hợp mọi dịch vụ (đơn giản nhất)** | Có phát sinh phí ở đâu không — nếu vẫn trong free tier, các dòng ở đây phải là **$0.00** | [Billing → Reports](https://console.cloud.google.com/billing/reports?project=feednotebooklm) | mọi thứ ở trên |
+
+Cách kiểm tra nhanh nhất khi lười mở từng trang: chỉ cần vào **Billing →
+Reports** ở dòng cuối — nếu tổng chi phí project vẫn là $0.00 thì mọi dịch
+vụ đều đang nằm trong free tier, không cần xem chi tiết từng cái.
 
 Với tần suất dùng cá nhân 2-3 bài/ngày, các số liệu này sẽ nằm rất sâu
 trong free tier (xem tính toán chi tiết ở mục C.1–C.2 dưới đây) — chỉ cần
