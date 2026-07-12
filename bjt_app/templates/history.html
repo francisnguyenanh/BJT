@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Lịch sử — BJT Study{% endblock %}
+{% block content %}
+<h1>Lịch sử bài đọc</h1>
+{% if items %}
+<button id="delete-all" class="danger-btn">🗑 Xóa tất cả lịch sử</button>
+{% endif %}
+<ul class="history-list">
+  {% for it in items %}
+  <li data-id="{{ it.id }}">
+    <a href="/passage/{{ it.date }}?length={{ it.length }}&level={{ it.level }}">
+      <b>{{ it.date }}</b> [{{ it.length_label }} · {{ it.exam_level or it.level }}] — {{ it.title }}
+    </a>
+    <div class="scenario">{{ it.scenario }}</div>
+    <button class="delete-item danger-btn-sm" data-id="{{ it.id }}">🗑 Xóa</button>
+  </li>
+  {% else %}
+  <li>Chưa có bài đọc nào.</li>
+  {% endfor %}
+</ul>
+
+<script>
+document.querySelectorAll('.delete-item').forEach(btn => {
+  btn.addEventListener('click', async (e) => {
+    e.preventDefault();
+    if (!confirm('Xóa bài đọc này? Hành động không thể hoàn tác.')) return;
+    const id = btn.dataset.id;
+    const res = await fetch(`/history/${id}/delete`, {method: 'POST'});
+    const data = await res.json();
+    if (data.ok) btn.closest('li').remove();
+  });
+});
+
+const deleteAllBtn = document.getElementById('delete-all');
+if (deleteAllBtn) {
+  deleteAllBtn.addEventListener('click', async () => {
+    if (!confirm('Xóa TẤT CẢ lịch sử bài đọc? Hành động không thể hoàn tác.')) return;
+    const res = await fetch('/history/delete-all', {method: 'POST'});
+    const data = await res.json();
+    if (data.ok) window.location.reload();
+  });
+}
+</script>
+{% endblock %}

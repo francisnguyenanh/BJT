@@ -1,1 +1,7 @@
 /.claude
+ai_module/credentials/
+ai_module/__pycache__/
+bjt_app/__pycache__/
+output/
+data/progress.json
+data/passages/

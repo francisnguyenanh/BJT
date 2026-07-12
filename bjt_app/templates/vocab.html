@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Luyện tập — BJT Study{% endblock %}
+{% block content %}
+<h1>Luyện tập ⭐</h1>
+<p class="scenario">Từ vựng và ngữ pháp bạn đã đánh dấu sao trong các bài đọc sẽ xuất hiện ở đây để ôn tập lại. Bấm vào một mục để mở lại bài đọc gốc, hoặc bấm ★ để bỏ đánh dấu.</p>
+
+<section class="focus-box">
+  <div class="section-header" data-toggle="review-vocab-body">
+    <h3>Từ vựng đã đánh dấu (<span id="vocab-count">0</span>)</h3>
+    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
+  </div>
+  <ul class="review-list section-body" id="review-vocab-body"></ul>
+</section>
+
+<section class="focus-box">
+  <div class="section-header" data-toggle="review-grammar-body">
+    <h3>Ngữ pháp đã đánh dấu (<span id="grammar-count">0</span>)</h3>
+    <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
+  </div>
+  <ul class="review-list section-body" id="review-grammar-body"></ul>
+</section>
+
+<script>
+function loadStarred() {
+  try { return JSON.parse(localStorage.getItem('bjt-starred') || '{}'); } catch (e) { return {}; }
+}
+function saveStarred(map) { localStorage.setItem('bjt-starred', JSON.stringify(map)); }
+
+function renderReview() {
+  const map = loadStarred();
+  const vocabBody = document.getElementById('review-vocab-body');
+  const grammarBody = document.getElementById('review-grammar-body');
+  vocabBody.innerHTML = '';
+  grammarBody.innerHTML = '';
+
+  const entries = Object.entries(map).sort((a, b) => (b[1].savedAt || 0) - (a[1].savedAt || 0));
+  let vocabCount = 0, grammarCount = 0;
+
+  entries.forEach(([key, item]) => {
+    const li = document.createElement('li');
+    li.className = 'review-item';
+    const link = item.date ? `/passage/${item.date}?length=${item.length}&level=${item.pageLevel || ''}` : null;
+
+    const termHtml = `<b>${item.term}</b>${item.reading ? ' <span class="reading">(' + item.reading + ')</span>' : ''}`;
+    li.innerHTML = `
+      <div class="review-row">
+        ${link ? `<a href="${link}" class="review-term">${termHtml}</a>` : `<span class="review-term">${termHtml}</span>`}
+        <button class="star-btn starred" data-key="${key}" aria-label="Bỏ đánh dấu">★</button>
+      </div>
+      <div class="review-meaning">${item.meaning || ''}</div>
+      ${item.structure ? `<div class="structure">Cấu trúc: ${item.structure}</div>` : ''}
+      ${item.example ? `<div class="example">例: ${item.example}</div>` : ''}
+      ${item.title ? `<div class="review-source">Từ bài: ${item.title}</div>` : ''}
+    `;
+
+    if (item.kind === 'grammar') { grammarBody.appendChild(li); grammarCount++; }
+    else { vocabBody.appendChild(li); vocabCount++; }
+  });
+
+  if (!vocabCount) vocabBody.innerHTML = '<li class="empty">Chưa có từ vựng nào được đánh dấu. Hãy bấm ☆ trong bài đọc để thêm.</li>';
+  if (!grammarCount) grammarBody.innerHTML = '<li class="empty">Chưa có ngữ pháp nào được đánh dấu. Hãy bấm ☆ trong bài đọc để thêm.</li>';
+  document.getElementById('vocab-count').textContent = vocabCount;
+  document.getElementById('grammar-count').textContent = grammarCount;
+
+  document.querySelectorAll('.star-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const map2 = loadStarred();
+      delete map2[btn.dataset.key];
+      saveStarred(map2);
+      renderReview();
+    });
+  });
+}
+renderReview();
+
+document.querySelectorAll('.section-header').forEach(header => {
+  header.addEventListener('click', () => {
+    const body = document.getElementById(header.dataset.toggle);
+    body.classList.toggle('collapsed');
+    header.classList.toggle('collapsed');
+  });
+});
+</script>
+{% endblock %}

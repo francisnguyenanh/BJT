@@ -184,3 +184,124 @@ Mỗi mục gồm nghĩa đen (nghĩa gốc theo mặt chữ) và nghĩa bóng (
 ---
 
 **Lưu ý dùng bài**: Nhóm 5 và 6 (thành ngữ/tục ngữ/四字熟語) thường được kiểm tra qua dạng chọn nghĩa đúng theo văn cảnh (văn脈) chứ không chỉ ghép nghĩa đơn thuần — nên học kèm ví dụ câu thực tế và tình huống sử dụng (khen/chê, an ủi, cảnh báo...) thay vì chỉ học thuộc nghĩa đen.
+
+## 7. Tính từ, trạng từ N1 bổ sung
+
+### 7.1. Tính từ chỉ nhận định trí tuệ / đạo đức, phẩm cách (N1)
+
+| Từ | Đọc | Nghĩa | Ví dụ |
+|---|---|---|---|
+| 賢明 | けんめい | Sáng suốt, khôn ngoan (trong quyết định, lựa chọn) | 今の状況では手を引くのが賢明な判断だろう。 |
+| 愚劣 | ぐれつ | Ngu xuẩn, đê hèn thấp kém (hành vi, phát ngôn) | あのような愚劣な発言は聞くに値しない。 |
+| 狡猾 | こうかつ | Xảo quyệt, gian manh, mưu mô | 彼は狡猾な手段で相手を陥れた。 |
+| 卑怯 | ひきょう | Hèn nhát, tiểu nhân, hành xử không đường hoàng | 弱い者いじめをするのは卑怯な行為だ。 |
+| 邪悪 | じゃあく | Tà ác, độc ác (bản chất, ý định) | 物語には邪悪な魔法使いが登場する。 |
+| 悪辣 | あくらつ | Độc ác, thâm hiểm tàn nhẫn (thủ đoạn) | 悪辣な手口で高齢者から金を騙し取る事件が相次いでいる。 |
+| 陰険 | いんけん | Âm hiểm, nham hiểm (tính cách, cách hành xử ngầm) | 彼女は陰険な方法で同僚を追い落とした。 |
+| 狭量 | きょうりょう | Hẹp hòi, nhỏ nhen (tâm địa, tấm lòng) | 少しの失敗も許さないとは、あまりに狭量な態度だ。 |
+| 寛容 | かんよう | Khoan dung, độ lượng, rộng lòng tha thứ | 上司は部下の失敗に対して寛容な態度で接した。 |
+| 謙虚 | けんきょ | Khiêm tốn, khiêm nhường | 彼は成功しても謙虚な姿勢を忘れない。 |
+| 慎重 | しんちょう | Cẩn trọng, thận trọng (trước khi quyết định/hành động) | 大きな投資をする前には慎重に検討すべきだ。 |
+| 軽率 | けいそつ | Hấp tấp, khinh suất, thiếu suy nghĩ chín chắn | 確認もせずに発表するのは軽率だった。 |
+| 短気 | たんき | Nóng tính, dễ nổi giận, thiếu kiên nhẫn | 彼は短気なので、すぐに声を荒げてしまう。 |
+| 冷静 | れいせい | Bình tĩnh, điềm tĩnh (giữ được lý trí) | 緊急事態でも冷静に対応することが求められる。 |
+| 浅薄 | せんぱく | Hời hợt, nông cạn (kiến thức, suy nghĩ) | 彼の意見は浅薄で、説得力に欠ける。 |
+| 稚拙 | ちせつ | Non nớt, vụng về, thiếu chín chắn | この作文は表現が稚拙で、内容も乏しい。 |
+| 卑俗 | ひぞく | Thô tục, tầm thường thấp kém (thị hiếu, cách nói) | 卑俗な言葉遣いは公の場では避けるべきだ。 |
+| 高尚 | こうしょう | Cao thượng, thanh cao (tư tưởng, sở thích) | 彼は高尚な趣味として茶道を続けている。 |
+| 清廉 | せいれん | Trong sạch, liêm chính, không tham nhũng | 清廉な政治家として国民の信頼を得た。 |
+| 独善的 | どくぜんてき | Tự cho mình đúng, độc đoán tự mãn | 独善的な考え方では周囲の協力を得られない。 |
+| 利己的 | りこてき | Vị kỷ, ích kỷ, chỉ nghĩ đến lợi ích của mình | 利己的な行動ばかりでは組織全体の利益を損なう。 |
+| 打算的 | ださんてき | Toan tính, thực dụng vụ lợi (trong quan hệ, hành động) | 彼女は打算的な結婚には反対だった。 |
+| 不遜 | ふそん | Ngạo mạn, vô lễ, hỗn láo (thái độ, lời nói) | 目上の人に対する不遜な態度は改めるべきだ。 |
+| 尊大 | そんだい | Tự cao tự đại, kiêu căng | 出世すると尊大な態度をとる人も少なくない。 |
+| 秀逸 | しゅういつ | Xuất sắc, ưu tú, vượt trội hẳn so với người khác | この作品は数ある候補の中でも秀逸だ。 |
+| 凡庸 | ぼんよう | Tầm thường, bình thường, không có gì nổi bật | 彼の企画は凡庸で、採用には至らなかった。 |
+| 老獪 | ろうかい | Lão luyện và thâm hiểm, dày dạn mưu mẹo | 老獪な交渉術で相手を巧みに丸め込んだ。 |
+
+### 7.2. Tính từ chỉ quy mô, mức độ dùng trong văn viết trang trọng (N1)
+
+| Từ | Đọc | Nghĩa | Ví dụ |
+|---|---|---|---|
+| 膨大 | ぼうだい | To lớn, khổng lồ (số lượng, quy mô) | このプロジェクトには膨大な資金が投入された。 |
+| 微細 | びさい | Nhỏ bé, vi tế, cực nhỏ | 顕微鏡で微細な構造を観察する。 |
+| 皆無 | かいむ | Hoàn toàn không có, tuyệt không (khả năng, tiền lệ) | 前例が皆無のケースで、対応に苦慮した。 |
+| 甚大 | じんだい | To lớn, nghiêm trọng (thiệt hại, ảnh hưởng) | 台風により甚大な被害がもたらされた。 |
+| 深刻 | しんこく | Nghiêm trọng, sâu sắc (vấn đề, tình trạng) | 少子化は深刻な社会問題となっている。 |
+| 些少 | さしょう | Ít, nhỏ nhặt, không đáng kể (số lượng, tiền bạc) | 些少ではございますが、お礼の品をお送りいたします。 |
+| 僅少 | きんしょう | Rất ít, ít ỏi (số lượng, chênh lệch) | 両者の得票数の差は僅少だった。 |
+| 大幅 | おおはば | Với biên độ lớn, đáng kể (thay đổi, tăng giảm) | 来期は経費を大幅に削減する予定だ。 |
+| 軽微 | けいび | Nhẹ, không đáng kể (thiệt hại, lỗi) | 事故による損傷は軽微で済んだ。 |
+| 濃厚 | のうこう | Đậm đặc, rõ rệt (khả năng, mùi vị) | このスープはバターの風味が濃厚だ。 |
+| 希薄 | きはく | Loãng, mỏng, nhạt (ý thức, không khí, khả năng) | 高地では酸素が希薄になる。 |
+| 過密 | かみつ | Quá đông đúc, quá dày đặc, quá tải | 都市部の過密なスケジュールに疲弊する人が多い。 |
+| 過疎 | かそ | Thưa dân, hoang vắng (vùng nông thôn) | 過疎化が進む地域では公共サービスの維持が難しい。 |
+| 極端 | きょくたん | Cực đoan, thái quá (ý kiến, hành động) | 極端な意見は議論をかえって難しくする。 |
+| 熾烈 | しれつ | Khốc liệt, gay gắt (cạnh tranh, tranh giành) | 市場では熾烈な価格競争が繰り広げられている。 |
+| 深遠 | しんえん | Thâm sâu, sâu xa (ý nghĩa, tư tưởng) | この詩には深遠な人生哲学が込められている。 |
+| 尋常 | じんじょう | Bình thường, thông thường (thường dùng ở dạng phủ định) | 彼のこだわりは尋常ではないレベルだ。 |
+| 破格 | はかく | Phá lệ, vượt khỏi thông thường (giá cả, đãi ngộ) | 新人ながら破格の待遇で採用された。 |
+| 桁外れ | けたはずれ | Vượt hẳn mức thông thường, phi thường (quy mô, năng lực) | 彼の集中力は桁外れだ。 |
+| 顕在的 | けんざいてき | Hiện hữu rõ ràng, đã lộ ra bên ngoài (đối lập với 潜在的) | 顕在的なリスクだけでなく、潜在的なリスクにも目を向けるべきだ。 |
+
+### 7.3. Trạng từ lập luận logic, tranh luận trang trọng trong văn viết (N1)
+
+| Từ | Đọc | Nghĩa | Ví dụ |
+|---|---|---|---|
+| 仮に | かりに | Giả sử, nếu như (đặt giả định) | 仮にこの計画が失敗したら、次善の策を考えておこう。 |
+| したがって | — | Do đó, vì vậy (dẫn đến kết luận logic) | 需要が減少している。したがって、生産量も調整する必要がある。 |
+| ゆえに | — | Do đó, vì thế (văn viết trang trọng, học thuật) | 全ての人は誤りを犯す。ゆえに、寛容さが求められる。 |
+| 要するに | ようするに | Nói tóm lại, tóm gọn lại | 要するに、予算が足りないということだ。 |
+| 換言すれば | かんげんすれば | Nói cách khác (diễn đạt lại cùng một ý) | 換言すれば、これは需要と供給の問題である。 |
+| 言い換えれば | いいかえれば | Nói cách khác, diễn đạt lại theo cách dễ hiểu hơn | 言い換えれば、彼は責任を取りたくないのだ。 |
+| ひるがえって | — | Ngược lại mà xét, xét theo chiều khác | ひるがえって自国の状況を見ると、課題は多い。 |
+| かえって | — | Trái lại, ngược lại với dự đoán ban đầu | 注意したことが、かえって彼を怒らせてしまった。 |
+| むしろ | — | Thà rằng, nói đúng hơn là (so sánh và chọn phía khác) | 彼は失敗を恐れるより、むしろ挑戦を楽しんでいるようだ。 |
+| なまじ | — | Giá mà (làm/biết) thì đỡ hơn; làm nửa vời còn tệ hơn không làm | なまじ知識があるだけに、余計な心配をしてしまう。 |
+| もとより | — | Từ trước đã vậy, đương nhiên là; huống chi | 彼の実力はもとより承知していた。 |
+| ましてや | — | Huống hồ, càng không cần nói đến (trường hợp mạnh hơn) | 大人でも難しいのだから、ましてや子供にできるはずがない。 |
+| 言うまでもなく | いうまでもなく | Không cần phải nói, dĩ nhiên là | 言うまでもなく、健康が何よりも大切だ。 |
+| ひいては | — | Hơn nữa, rồi dẫn đến (kết quả lan rộng hơn) | 個人の努力が、ひいては会社全体の成長につながる。 |
+| 果たして | はたして | Quả nhiên; liệu có đúng là... không (dùng trong câu nghi vấn) | 果たしてこの計画はうまくいくのだろうか。 |
+| とりもなおさず | — | Nói cách khác, cũng chính là, tức là | 部下の失敗は、とりもなおさず上司の指導不足の表れでもある。 |
+| なにより | — | Hơn hết, trên tất cả mọi thứ | 家族の健康がなにより大切だ。 |
+
+### 7.4. Trạng từ diễn đạt trình tự sự kiện trong văn viết, tường thuật (N1)
+
+| Từ | Đọc | Nghĩa | Ví dụ |
+|---|---|---|---|
+| やがて | — | Rồi thì, chẳng bao lâu sau | 曇り空だったが、やがて雨が降り出した。 |
+| ほどなく | — | Không lâu sau đó, chẳng mấy chốc | 出発してほどなく、目的地に到着した。 |
+| のちに | 後に | Sau đó, về sau (thời điểm xa hơn trong quá khứ) | この発見は、のちに大きな発展をもたらした。 |
+| かつて | — | Từng, ngày xưa (đã từng xảy ra/tồn tại) | ここはかつて工場があった場所だ。 |
+| 一旦 | いったん | Một khi đã... (thì); tạm thời | 一旦決めたことは最後までやり遂げるべきだ。 |
+| ひとまず | — | Tạm thời, trước mắt (đã xong một giai đoạn) | ひとまず今日の作業はここまでにしよう。 |
+| さっそく | 早速 | Ngay lập tức, lập tức | ご提案いただいた件、さっそく検討させていただきます。 |
+| 追って | おって | Sau đó sẽ, tiếp theo sẽ (thông báo bổ sung sau) | 詳細については追ってご連絡いたします。 |
+| 相次いで | あいついで | Liên tiếp, nối tiếp nhau xảy ra | 同業他社が相次いで市場から撤退した。 |
+| 引き続き | ひきつづき | Tiếp tục, liên tục sau đó | 今後も引き続き支援を続けてまいります。 |
+| 次いで | ついで | Tiếp theo, kế đó | 第一位はA社、次いでB社という結果になった。 |
+| 折しも | おりしも | Đúng vào lúc đó, đúng dịp đó | 折しも桜が満開の季節に、彼らは再会した。 |
+| いよいよ | — | Cuối cùng thì, đến lúc quan trọng/cao điểm | いよいよ明日から新生活が始まる。 |
+| とうとう | — | Cuối cùng thì, rốt cuộc (thường kết quả không mong đợi) | 交渉は決裂し、とうとう契約は白紙に戻った。 |
+| ついに | — | Cuối cùng, rốt cuộc (sau một quá trình dài chờ đợi/nỗ lực) | 長年の研究が、ついに実を結んだ。 |
+| 一挙に | いっきょに | Trong một lần, đồng loạt cùng lúc | 課題を一挙に解決する方法はなかなか見つからない。 |
+| 矢継ぎ早に | やつぎばやに | Liên tục dồn dập, tới tấp (câu hỏi, hành động) | 記者たちは矢継ぎ早に質問を浴びせた。 |
+
+## 8. Thành ngữ / tục ngữ (ことわざ) bổ sung
+
+| Thành ngữ | Đọc | Nghĩa đen → Nghĩa bóng | Ví dụ |
+|---|---|---|---|
+| 河童の川流れ | かっぱのかわながれ | Ngay cả kappa (thần nước giỏi bơi) cũng có lúc bị chết trôi → Chuyên gia, người giỏi cũng có lúc thất bại | 校正の専門家である彼女でも誤植を見逃すとは、河童の川流れだ。 |
+| 玉に瑕 | たまにきず | Ngọc quý cũng có một vết xước → Điều gần như hoàn hảo nhưng vẫn còn một khuyết điểm nhỏ | 彼は優秀だが、少し頑固なのが玉に瑕だ。 |
+| 三度目の正直 | さんどめのしょうじき | Lần thứ ba mới là thật → Sau hai lần thất bại/không chắc chắn, lần thứ ba thường mới thành công hoặc rõ ràng | 二回落ちたが、三度目の正直で今回は合格できた。 |
+| 一寸の虫にも五分の魂 | いっすんのむしにもごぶのたましい | Ngay cả con sâu bé một tấc cũng có nửa phần hồn → Dù nhỏ bé, yếu thế cũng có lòng tự trọng và bản lĩnh riêng, không nên khinh thường | 新人だからと侮ってはいけない。一寸の虫にも五分の魂だ。 |
+| 蒔かぬ種は生えぬ | まかぬたねははえぬ | Hạt không gieo thì không mọc → Không hành động thì không có kết quả, gieo nhân nào gặt quả nào | 何もせずに成功を望むのは無理だ。蒔かぬ種は生えぬというものだ。 |
+| 悪銭身に付かず | あくせんみにつかず | Tiền kiếm được bất chính thì không giữ được lâu trên người → Tiền kiếm được bằng cách xấu sẽ nhanh chóng mất đi | ギャンブルで得た金はすぐに消えた。悪銭身に付かずということだ。 |
+| 木を見て森を見ず | きをみてもりをみず | Nhìn cây mà không nhìn thấy cả rừng → Chỉ chú ý đến chi tiết nhỏ mà không thấy được toàn cục | 細部にこだわりすぎて、木を見て森を見ずの状態になっている。 |
+| 二階から目薬 | にかいからめぐすり | Nhỏ thuốc mắt từ tầng hai xuống → Cách làm vòng vo, không hiệu quả, chẳng ăn thua gì | 遠隔から指示するだけでは、二階から目薬のようなものだ。 |
+| 亀の甲より年の功 | かめのこうよりとしのこう | Mai rùa dù cứng và lâu năm cũng không quý bằng công lao của năm tháng → Kinh nghiệm sống lâu năm đáng giá hơn những thứ khác | 難しい局面を切り抜けられたのは、亀の甲より年の功のおかげだ。 |
+| 猫に小判 | ねこにこばん | Đưa đồng tiền vàng cho con mèo → Trao vật quý cho người không biết giá trị của nó thì thật vô nghĩa | 使い方を知らない人に高価な機材を与えても猫に小判だ。 |
+| 七転び八起き | ななころびやおき | Ngã bảy lần, đứng lên tám lần → Dù thất bại nhiều lần vẫn không bỏ cuộc, kiên trì đứng lên | 何度失敗しても、七転び八起きの精神で挑戦し続けた。 |
+| 花より団子 | はなよりだんご | Bánh dango (thực tế) hơn là hoa (hình thức) → Coi trọng thực chất, lợi ích thiết thực hơn hình thức bề ngoài | 見た目より実用性を重視する彼は、まさに花より団子タイプだ。 |
+| 触らぬ神に祟りなし | さわらぬかみにたたりなし | Không đụng vào thần thì không bị quở phạt → Không dây vào chuyện không liên quan đến mình thì tránh được rắc rối | 面倒な問題には関わらない方がいい。触らぬ神に祟りなしだ。 |

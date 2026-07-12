@@ -1,0 +1,10 @@
+__pycache__/
+**/__pycache__/
+*.pyc
+.git/
+.gitignore
+data/
+output/
+ai_module/credentials/
+*.md
+!README.md

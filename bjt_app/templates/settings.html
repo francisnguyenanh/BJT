@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Cài đặt AI — BJT Study{% endblock %}
+{% block content %}
+<h1>Cài đặt AI</h1>
+<p class="scenario">Chọn nhà cung cấp AI ưu tiên khi tạo bài đọc. Nếu provider ưu tiên lỗi (hết quota, timeout, ...), hệ thống sẽ tự động dùng provider còn lại.</p>
+
+<section class="focus-box">
+  <form method="post">
+    <label class="provider-option">
+      <input type="radio" name="primary_provider" value="vertex_ai" {% if primary == "vertex_ai" %}checked{% endif %}>
+      <span><b>Vertex AI</b> ưu tiên trước — dùng Kaggle AI làm dự phòng</span>
+    </label>
+    <label class="provider-option">
+      <input type="radio" name="primary_provider" value="kaggle" {% if primary == "kaggle" %}checked{% endif %}>
+      <span><b>Kaggle AI</b> ưu tiên trước — dùng Vertex AI làm dự phòng</span>
+    </label>
+    <button type="submit" id="save-settings">Lưu cài đặt</button>
+  </form>
+  <p class="scenario">Thứ tự hiện tại: {{ order | join(" → ") }}</p>
+</section>
+{% endblock %}
