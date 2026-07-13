@@ -20,7 +20,7 @@
     <span class="toolbar-label">Furigana:</span>
     <button class="tb-btn" data-action="furi-dec">a-</button>
     <button class="tb-btn" data-action="furi-inc">a+</button>
-    <button class="tb-btn" id="furi-toggle">👁 Ẩn/hiện</button>
+    <button class="tb-btn" id="furi-toggle">Ẩn/hiện</button>
   </div>
   <div class="toolbar-group">
     <span class="toolbar-label">Màu furigana:</span>
@@ -40,42 +40,10 @@
     <button class="collapse-btn" aria-label="Thu gọn/mở rộng">▾</button>
   </div>
   <div class="section-body" id="focus-body">
-    {% if analysis.vocab_glossary %}
-    <h4>Từ vựng N3+ xuất hiện trong bài</h4>
-    <ul class="focus-list">
-      {% for v in analysis.vocab_glossary %}
-        <li>
-          <div class="item-row">
-            <span>
-              <b>{{ v.term }}</b>{% if v.reading %} <span class="reading">({{ v.reading }})</span>{% endif %}
-              {% if v.level %}<span class="level-badge level-{{ v.level }}">{{ v.level }}</span>{% endif %}
-              — {{ v.meaning }}
-            </span>
-            <button class="star-btn" data-kind="vocab" data-term="{{ v.term }}" data-reading="{{ v.reading }}" data-meaning="{{ v.meaning }}" data-word-level="{{ v.level }}" aria-label="Đánh dấu quan trọng">☆</button>
-          </div>
-        </li>
-      {% endfor %}
-    </ul>
-    {% endif %}
-
-    {% if analysis.grammar_glossary %}
-    <h4>Ngữ pháp N2 / N1 xuất hiện trong bài</h4>
-    <ul class="focus-list">
-      {% for g in analysis.grammar_glossary %}
-        <li>
-          <div class="item-row">
-            <span>
-              <b>{{ g.pattern }}</b>
-              {% if g.level %}<span class="level-badge level-{{ g.level }}">{{ g.level }}</span>{% endif %}
-              — {{ g.meaning }}
-            </span>
-            <button class="star-btn" data-kind="grammar" data-term="{{ g.pattern }}" data-meaning="{{ g.meaning }}" data-structure="{{ g.structure }}" data-example="{{ g.example }}" data-word-level="{{ g.level }}" aria-label="Đánh dấu quan trọng">☆</button>
-          </div>
-          {% if g.structure %}<div class="structure">Cấu trúc: {{ g.structure }}</div>{% endif %}
-          {% if g.example %}<div class="example">例: {{ g.example | furigana | safe }}</div>{% endif %}
-        </li>
-      {% endfor %}
-    </ul>
+    {% if analysis %}
+      {% include "_lifestyle_analysis.html" %}
+    {% else %}
+      <div class="analysis-loading"><span class="spinner"></span> Đang phân tích từ vựng &amp; ngữ pháp trong bài...</div>
     {% endif %}
   </div>
 </section>
@@ -94,7 +62,22 @@
 window.BJT.initSectionToggles();
 window.BJT.initReadingToolbar();
 window.BJT.initTtsButton();
-window.BJT.initStarButtons(() => ({ source: 'lifestyle', readingId: '{{ reading.id }}', title: {{ reading.title | tojson }} }));
+const starContext = () => ({ source: 'lifestyle', readingId: '{{ reading.id }}', title: {{ reading.title | tojson }} });
+window.BJT.initStarButtons(starContext);
+
+{% if not analysis %}
+(async () => {
+  const focusBody = document.getElementById('focus-body');
+  try {
+    const res = await fetch('/lifestyle/{{ reading.id }}/analysis');
+    if (!res.ok) throw new Error('request failed');
+    focusBody.innerHTML = await res.text();
+    window.BJT.initStarButtons(starContext);
+  } catch (e) {
+    focusBody.innerHTML = '<div class="analysis-error">⚠️ Không tải được từ vựng &amp; ngữ pháp.<button class="tb-btn" onclick="location.reload()">Thử lại</button></div>';
+  }
+})();
+{% endif %}
 
 const readBtn = document.getElementById('read-toggle');
 readBtn.addEventListener('click', async () => {

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Text-to-speech narration for readings, via Cloud Text-to-Speech (Neural2
-Japanese voice) — not Vertex AI's Gemini audio-out, deliberately: Cloud TTS
-has its own perpetual free tier (~1M characters/month for Neural2/WaveNet
-voices), while Gemini audio-out bills per token with no separate free
+"""Text-to-speech narration for readings, via Cloud Text-to-Speech (Chirp3-HD
+Japanese voices) — not Vertex AI's Gemini audio-out, deliberately: Cloud TTS
+has its own perpetual free tier (~1M characters/month for Chirp3-HD/Neural2/
+WaveNet voices), while Gemini audio-out bills per token with no separate free
 allowance. At this app's scale (2-3 readings/day, ~1.5-5K chars each) usage
 stays a small fraction of that free tier.
 
@@ -18,11 +18,15 @@ import re
 from bjt_app import ai_provider, storage
 
 LANGUAGE_CODE = "ja-JP"
-DEFAULT_VOICE = "ja-JP-Neural2-B"
+# Chirp3-HD is Google's newest, most natural-sounding voice family (LLM-based,
+# a step up from the older Neural2 synthesis) and shares the same 1M
+# characters/month free-tier allowance as Neural2, so switching costs nothing.
+DEFAULT_VOICE = "ja-JP-Chirp3-HD-Aoede"
 VOICES = {
-    "ja-JP-Neural2-B": "Nữ (Neural2-B)",
-    "ja-JP-Neural2-C": "Nam (Neural2-C)",
-    "ja-JP-Neural2-D": "Nam (Neural2-D)",
+    "ja-JP-Chirp3-HD-Aoede": "Nữ (Chirp3-HD-Aoede)",
+    "ja-JP-Chirp3-HD-Zephyr": "Nữ (Chirp3-HD-Zephyr)",
+    "ja-JP-Chirp3-HD-Charon": "Nam (Chirp3-HD-Charon)",
+    "ja-JP-Chirp3-HD-Fenrir": "Nam (Chirp3-HD-Fenrir)",
 }
 
 CONFIG_PATH_DEFAULT = ai_provider.CONFIG_PATH_DEFAULT
@@ -32,6 +36,28 @@ CONFIG_PATH_DEFAULT = ai_provider.CONFIG_PATH_DEFAULT
 # boundaries so chunk edges don't fall mid-word.
 _MAX_CHARS_PER_CALL = 1400
 _SENTENCE_SPLIT_RE = re.compile(r"(?<=[。！？\n])")
+
+# Chirp3-HD (unlike the older Neural2 voices) rejects a request outright if
+# any single sentence is too long ("This request contains sentences that are
+# too long"). Re-split oversized sentences on comma/pause boundaries so a
+# long unbroken clause never reaches the API as one piece.
+_MAX_CHARS_PER_SENTENCE = 200
+_CLAUSE_SPLIT_RE = re.compile(r"(?<=[、,])")
+
+
+def _split_long_sentence(sentence: str, max_chars: int) -> list:
+    if len(sentence) <= max_chars:
+        return [sentence]
+    clauses = [c for c in _CLAUSE_SPLIT_RE.split(sentence) if c]
+    pieces, current = [], ""
+    for clause in clauses:
+        if current and len(current) + len(clause) > max_chars:
+            pieces.append(current)
+            current = ""
+        current += clause
+    if current:
+        pieces.append(current)
+    return pieces or [sentence[:max_chars]]
 
 _client = None
 
@@ -66,6 +92,11 @@ def set_voice(voice: str, config_path: str = CONFIG_PATH_DEFAULT) -> None:
 
 def _split_into_chunks(text: str, max_chars: int = _MAX_CHARS_PER_CALL) -> list:
     sentences = [s for s in _SENTENCE_SPLIT_RE.split(text) if s]
+    sentences = [
+        piece
+        for sentence in sentences
+        for piece in _split_long_sentence(sentence, _MAX_CHARS_PER_SENTENCE)
+    ]
     chunks, current = [], ""
     for sentence in sentences:
         if current and len(current) + len(sentence) > max_chars:

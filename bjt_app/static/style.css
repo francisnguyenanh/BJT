@@ -96,12 +96,16 @@ h1 { font-size: 22px; margin-bottom: 4px; }
 .badge-topic { background: #7c3aed; }
 
 #passage-root.loading { opacity: .5; transition: opacity .15s; pointer-events: none; }
-.length-tabs, .level-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+.length-tabs, .level-tabs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
 .length-tab, .level-tab {
-  flex: 1; text-align: center; padding: 10px; border-radius: 8px; background: var(--card-bg);
-  border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 14px; font-weight: 500;
+  flex: 0 0 auto; text-align: center; padding: 5px 12px; border-radius: 999px; background: var(--card-bg);
+  border: 1px solid var(--border); color: var(--text); text-decoration: none; font-size: 12.5px; font-weight: 500;
 }
 .length-tab.active, .level-tab.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+@media (max-width: 480px) {
+  .length-tab, .level-tab { padding: 4px 10px; font-size: 12px; }
+}
 
 #regen-top { display: block; width: 100%; margin: 4px 0 16px; padding: 12px; border: none; border-radius: 8px; background: #059669; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; }
 #regen-top:disabled { opacity: .6; }
@@ -129,6 +133,14 @@ h1 { font-size: 22px; margin-bottom: 4px; }
 .swatch.active { border-color: var(--text); }
 
 .focus-box { background: var(--card-bg); border-radius: 10px; padding: 14px 16px; margin: 14px 0; box-shadow: var(--card-shadow); }
+.analysis-loading { display: flex; align-items: center; gap: 8px; color: var(--text-muted); font-size: 14px; padding: 6px 0; }
+.analysis-loading .spinner {
+  width: 14px; height: 14px; border: 2px solid var(--border); border-top-color: var(--accent);
+  border-radius: 50%; animation: bjt-spin .7s linear infinite; flex-shrink: 0;
+}
+.analysis-error { color: #dc2626; font-size: 14px; padding: 6px 0; }
+.analysis-error button { margin-left: 8px; }
+@keyframes bjt-spin { to { transform: rotate(360deg); } }
 .focus-box h3, .focus-box h4 { margin: 6px 0; font-size: 15px; }
 .focus-list { margin: 4px 0 10px; padding-left: 18px; font-size: calc(var(--jp-font-size) * 0.82); }
 .focus-list li { margin-bottom: 8px; }

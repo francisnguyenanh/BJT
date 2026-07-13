@@ -212,13 +212,26 @@ def lifestyle_detail(reading_id: str):
     reading = lifestyle.get_reading(reading_id)
     if reading is None:
         abort(404)
-    analysis = lifestyle.get_or_create_analysis(reading_id)
+    # Renders immediately with whatever analysis is already cached; if none
+    # exists yet, the page loads a placeholder and fetches it from
+    # /lifestyle/<id>/analysis in the background so a slow first-time AI
+    # call never blocks the reading itself from showing up.
+    analysis = lifestyle.load_cached_analysis(reading_id)
     return render_template(
         "lifestyle_detail.html",
         reading=reading,
         analysis=analysis,
         is_read=lifestyle.is_read(reading_id),
     )
+
+
+@app.route("/lifestyle/<reading_id>/analysis")
+def lifestyle_analysis(reading_id: str):
+    reading = lifestyle.get_reading(reading_id)
+    if reading is None:
+        abort(404)
+    analysis = lifestyle.get_or_create_analysis(reading_id)
+    return render_template("_lifestyle_analysis.html", analysis=analysis)
 
 
 _AUDIO_CACHE_HEADERS = {"Cache-Control": "public, max-age=31536000, immutable"}

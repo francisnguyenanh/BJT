@@ -107,6 +107,13 @@ def _extract_json(text: str) -> dict:
     return json.loads(text[start : end + 1])
 
 
+def load_cached_analysis(reading_id: str):
+    """Vocab/grammar analysis if it's already been generated, without
+    triggering an AI call. Used to render the reading page immediately;
+    a missing result is fetched afterwards via get_or_create_analysis."""
+    return storage.load_lifestyle_analysis(reading_id)
+
+
 def get_or_create_analysis(reading_id: str) -> dict:
     cached = storage.load_lifestyle_analysis(reading_id)
     if cached is not None:
